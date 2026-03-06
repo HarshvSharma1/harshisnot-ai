@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profound — Your AI Career Rep</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=DM+Serif+Text:ital@1&family=Lora:ital@1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-light: #f6f1ea;
+      --bg-dark: #1c1c1c;
+      --ink: #113a3a;
+      --ink-light: #f6f1ea;
+      --muted: #5a6b6b;
+      --muted-dark: rgba(246,241,234,.55);
+      --accent: #c44c2a;
+      --line: rgba(17,58,58,.10);
+      --max: 760px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg-light);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Utility ── */
+    .content-wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 28px;
+      width: 100%;
+    }
+
+    /* ── Scroll Reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.12s; }
+    .reveal-delay-2 { transition-delay: 0.24s; }
+    .reveal-delay-3 { transition-delay: 0.36s; }
+    .reveal-delay-4 { transition-delay: 0.48s; }
+    .reveal-delay-5 { transition-delay: 0.60s; }
+
+    /* ── Brushstroke Underline ── */
+    .brushstroke {
+      position: relative;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .brushstroke svg {
+      position: absolute;
+      left: -2%;
+      bottom: 0px;
+      width: 104%;
+      height: 10px;
+      pointer-events: none;
+    }
+    .brushstroke path {
+      stroke: var(--accent);
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      opacity: 0.55;
+      stroke-dasharray: 500;
+      stroke-dashoffset: 500;
+      transition: stroke-dashoffset 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .brushstroke.drawn path {
+      stroke-dashoffset: 0;
+    }
+
+
+    /* ── SECTION: Hero ── */
+    .section-hero {
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      padding: 80px 28px 40px;
+    }
+
+    .logo-mark {
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 32px;
+    }
+    .logo-mark svg {
+      width: 56px;
+      height: 56px;
+    }
+
+    .hero-pre {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 400;
+      margin-bottom: 4px;
+      color: var(--ink);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 0;
+    }
+
+    .evolves-word {
+      display: inline-block;
+      color: var(--accent);
+      font-style: italic;
+      transition: font-family 0.4s ease;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    .hero-fade-text {
+      margin-top: 36px;
+      max-width: 600px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 400;
+      line-height: 1.55;
+      color: rgba(17,58,58,.35);
+      transition: color 0.8s ease;
+    }
+    .hero-fade-text.visible {
+      color: var(--ink);
+    }
+
+    /* ── SECTION: Value Prop (light) ── */
+    .section-value {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 28px 80px;
+      text-align: center;
+    }
+
+    .value-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 3.5vw, 34px);
+      font-weight: 400;
+      line-height: 1.5;
+      max-width: 680px;
+      color: var(--ink);
+    }
+
+    .value-text .muted-line {
+      color: var(--muted);
+      display: block;
+      margin-top: 28px;
+      font-family: Inter, sans-serif;
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.7;
+    }
+
+    /* ── Flow Diagram (scroll-driven cascade) ── */
+    .flow-section {
+      height: 200vh;
+      position: relative;
+    }
+    .flow-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 28px;
+    }
+    .flow-diagram {
+      width: 100%;
+      max-width: 560px;
+    }
+    .flow-diagram svg {
+      width: 100%;
+      height: auto;
+    }
+    .flow-diagram .flow-label {
+      font-family: Inter, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      fill: var(--muted);
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .flow-diagram .flow-label.active {
+      opacity: 1;
+    }
+
+    /* Stage visibility — everything hidden by default */
+    .flow-diagram .stage-share,
+    .flow-diagram .stage-anonymize,
+    .flow-diagram .stage-connect {
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+    .flow-diagram .stage-share.active { opacity: 1; }
+    .flow-diagram .stage-anonymize.active { opacity: 1; }
+    .flow-diagram .stage-connect.active { opacity: 1; }
+
+    /* Flow lines draw on */
+    .flow-diagram .flow-line {
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      transition: stroke-dashoffset 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .flow-diagram .flow-line.active {
+      stroke-dashoffset: 0;
+    }
+
+    /* Agent glow */
+    .flow-diagram .agent-glow {
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .flow-diagram .agent-glow.active {
+      opacity: 1;
+    }
+
+    /* ── Light-to-Dark Gradient Transition ── */
+    .light-to-dark-fade {
+      height: 80px;
+      background: linear-gradient(to bottom, var(--bg-light), var(--bg-dark));
+    }
+
+    /* ── SECTION: Dark Snap ── */
+    .section-dark {
+      background: var(--bg-dark);
+      color: var(--ink-light);
+      min-height: 55vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 28px;
+      position: relative;
+    }
+
+    .dark-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 6vw, 56px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+
+    .dark-body {
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.7;
+      color: var(--muted-dark);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .section-dark .brushstroke path {
+      stroke: var(--accent);
+    }
+
+    /* ── SECTION: Strategy Pillars (dark) ── */
+    .section-pillars {
+      background: var(--bg-dark);
+      color: var(--ink-light);
+      padding: 20px 28px 80px;
+    }
+
+    .pillar {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 44px 0;
+      border-top: 1px solid rgba(246,241,234,.08);
+    }
+    .pillar:first-child {
+      border-top: none;
+    }
+
+    .pillar-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    .pillar h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      margin-bottom: 18px;
+      color: var(--ink-light);
+    }
+
+    .pillar p {
+      font-size: clamp(16px, 1.8vw, 18px);
+      line-height: 1.75;
+      color: var(--muted-dark);
+      max-width: 600px;
+    }
+
+    .pillar p + p {
+      margin-top: 14px;
+    }
+
+    /* ── SECTION: CTA (light) ── */
+    .section-cta {
+      background: var(--bg-light);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 28px;
+    }
+
+    .cta-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 400;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+    }
+
+    .cta-body {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 16px 40px;
+      background: var(--ink);
+      color: white;
+      font-family: Inter, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 999px;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .btn-primary:hover {
+      opacity: 0.88;
+      transform: scale(1.02);
+    }
+
+    /* ── Footer ── */
+    .section-footer {
+      background: var(--bg-light);
+      text-align: center;
+      padding: 0 28px 48px;
+      font-size: 13px;
+      color: rgba(17,58,58,.35);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .section-hero { padding: 48px 20px 48px; }
+      .hero-fade-text { margin-top: 28px; }
+      .section-value, .section-dark { padding: 48px 20px; }
+      .section-pillars { padding: 16px 20px 60px; }
+      .pillar { padding: 32px 0; }
+      .dot-grid-inner { gap: 14px; }
+      .dot-grid-inner span { width: 5px; height: 5px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 1 — HERO (light, full viewport)
+     ═══════════════════════════════════════════ -->
+<section class="section-hero">
+
+  <div class="logo-mark reveal">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Octagonal faceted outer shape -->
+      <path d="M50 4 L73 14 L86 37 L86 63 L73 86 L50 96 L27 86 L14 63 L14 37 L27 14 Z"
+            fill="var(--ink)" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/>
+      <!-- Facet lines from vertices to center -->
+      <path d="M50 4 L50 50" stroke="var(--bg-light)" stroke-width="1.8" opacity="0.35"/>
+      <path d="M86 37 L50 50" stroke="var(--bg-light)" stroke-width="1.8" opacity="0.35"/>
+      <path d="M86 63 L50 50" stroke="var(--bg-light)" stroke-width="1.8" opacity="0.35"/>
+      <path d="M50 96 L50 50" stroke="var(--bg-light)" stroke-width="1.8" opacity="0.35"/>
+      <path d="M14 63 L50 50" stroke="var(--bg-light)" stroke-width="1.8" opacity="0.35"/>
+      <path d="M14 37 L50 50" stroke="var(--bg-light)" stroke-width="1.8" opacity="0.35"/>
+      <path d="M73 14 L50 50" stroke="var(--bg-light)" stroke-width="1.8" opacity="0.35"/>
+      <path d="M27 14 L50 50" stroke="var(--bg-light)" stroke-width="1.8" opacity="0.35"/>
+      <path d="M73 86 L50 50" stroke="var(--bg-light)" stroke-width="1.8" opacity="0.35"/>
+      <path d="M27 86 L50 50" stroke="var(--bg-light)" stroke-width="1.8" opacity="0.35"/>
+      <!-- 8-pointed star burst at center -->
+      <path d="M50 30 L50 70" stroke="var(--bg-light)" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M36 36 L64 64" stroke="var(--bg-light)" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M30 50 L70 50" stroke="var(--bg-light)" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M64 36 L36 64" stroke="var(--bg-light)" stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="hero-title reveal reveal-delay-1">
+    Professionals deserve representation that
+    <span class="evolves-word" id="evolves-word">evolves</span>
+    with you.
+  </div>
+
+  <div class="hero-fade-text reveal reveal-delay-2">
+    Your expertise will open doors &mdash; your current context will help you find the right people, and create
+    <span class="brushstroke">meaningful<svg viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M3 5 C35 6.5, 70 4.5, 105 6 S150 5, 180 6 S195 5.5, 197 5"/></svg></span>
+    opportunities.
+  </div>
+
+
+
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FLOW DIAGRAM — Scroll-driven cascade
+     ═══════════════════════════════════════════ -->
+<section class="flow-section" id="flow-section">
+  <div class="flow-sticky">
+    <div class="flow-diagram" id="flow-diagram">
+      <svg viewBox="0 -4 560 124" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- STAGE 1: Share — Person + doc -->
+        <g class="stage-share">
+          <circle cx="60" cy="38" r="14" stroke="#113a3a" stroke-width="1.5" fill="none"/>
+          <path d="M40 80 C40 64, 60 56, 60 56 C60 56, 80 64, 80 80" stroke="#113a3a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <rect x="78" y="22" width="16" height="20" rx="2" stroke="#113a3a" stroke-width="1.2" fill="none" opacity="0.4"/>
+          <line x1="82" y1="28" x2="90" y2="28" stroke="#113a3a" stroke-width="1" opacity="0.3"/>
+          <line x1="82" y1="32" x2="88" y2="32" stroke="#113a3a" stroke-width="1" opacity="0.3"/>
+          <line x1="82" y1="36" x2="90" y2="36" stroke="#113a3a" stroke-width="1" opacity="0.3"/>
+        </g>
+
+        <!-- STAGE 2: Anonymize — Flow line + Agent -->
+        <line x1="95" y1="55" x2="240" y2="55" stroke="#113a3a" stroke-width="1" stroke-dasharray="4 4" class="flow-line flow-line-left" opacity="0.3"/>
+        <g class="stage-anonymize">
+          <circle cx="280" cy="55" r="34" stroke="#c44c2a" stroke-width="1" fill="none" opacity="0.15" class="agent-glow"/>
+          <path d="M280 25 L298 31 L306 47 L306 63 L298 79 L280 85 L262 79 L254 63 L254 47 L262 31 Z"
+                fill="#113a3a" stroke="#113a3a" stroke-width="1.5" stroke-linejoin="round"/>
+          <line x1="280" y1="40" x2="280" y2="70" stroke="#f6f1ea" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="268" y1="44" x2="292" y2="66" stroke="#f6f1ea" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="265" y1="55" x2="295" y2="55" stroke="#f6f1ea" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="292" y1="44" x2="268" y2="66" stroke="#f6f1ea" stroke-width="1.5" stroke-linecap="round"/>
+          <rect x="306" y="18" width="14" height="11" rx="2" stroke="#113a3a" stroke-width="1.2" fill="none" opacity="0.4"/>
+          <path d="M309 18 V14 C309 10, 317 10, 317 14 V18" stroke="#113a3a" stroke-width="1.2" fill="none" opacity="0.4"/>
+        </g>
+
+        <!-- STAGE 3: Connect — Lines + People -->
+        <line x1="320" y1="45" x2="440" y2="16" stroke="#113a3a" stroke-width="1" stroke-dasharray="4 4" class="flow-line flow-line-right1" opacity="0.3"/>
+        <line x1="320" y1="65" x2="440" y2="62" stroke="#113a3a" stroke-width="1" stroke-dasharray="4 4" class="flow-line flow-line-right2" opacity="0.3"/>
+        <g class="stage-connect">
+          <circle cx="475" cy="10" r="11" stroke="#113a3a" stroke-width="1.3" fill="none"/>
+          <path d="M460 42 C460 30, 475 24, 475 24 C475 24, 490 30, 490 42" stroke="#113a3a" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          <circle cx="475" cy="56" r="11" stroke="#113a3a" stroke-width="1.3" fill="none"/>
+          <path d="M460 88 C460 76, 475 70, 475 70 C475 70, 490 76, 490 88" stroke="#113a3a" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+          <circle cx="505" cy="36" r="3" fill="#c44c2a" class="agent-glow"/>
+        </g>
+
+        <!-- Labels — all on the same y line -->
+        <text x="60" y="108" text-anchor="middle" class="flow-label label-share">SHARE</text>
+        <text x="280" y="108" text-anchor="middle" class="flow-label label-anonymize">ANONYMIZE</text>
+        <text x="475" y="108" text-anchor="middle" class="flow-label label-connect">CONNECT</text>
+
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="light-to-dark-fade"></div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 3 — THE SHIFT (dark snap)
+     ═══════════════════════════════════════════ -->
+<section class="section-dark">
+  <div>
+    <div class="dark-headline reveal">
+      What if your rep<br>
+      never
+      <span class="brushstroke">stopped listening
+        <svg viewBox="0 0 200 10" preserveAspectRatio="none">
+          <path d="M3 5.5 C25 6, 50 4.5, 80 6 S120 5, 155 6.5 S185 5, 197 5.5"/>
+        </svg>
+      </span>?
+    </div>
+
+    <div class="dark-body reveal reveal-delay-1">
+      Instead of building a profile from one conversation and calling it done, Profound can maintain a living, evolving understanding of your career&mdash;and use that context to actively represent you.
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     SECTION 4 — STRATEGY PILLARS (dark)
+     ═══════════════════════════════════════════ -->
+<section class="section-pillars">
+
+  <div class="pillar reveal">
+    <div class="pillar-number">01</div>
+    <h2>A <span class="brushstroke">living understanding<svg viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M3 5.5 C30 6, 55 4.5, 85 6 S125 5, 160 6 S190 5.5, 197 5"/></svg></span> of your career</h2>
+    <p>After the initial discovery call, Profound maintains context through lightweight periodic check-ins&mdash;understanding not just who you are, but what you're navigating right now. A leadership challenge, a promotion ceiling, a new direction.</p>
+    <p>A real agent would know. Your AI rep should too.</p>
+  </div>
+
+  <div class="pillar reveal">
+    <div class="pillar-number">02</div>
+    <h2>Connections based on <span class="brushstroke">what you're navigating<svg viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M3 6 C25 5, 50 6.5, 80 5 S120 6, 155 5.5 S185 6, 197 5.5"/></svg></span></h2>
+    <p>Most platforms match people by job titles. Profound can also match by current situation. If a senior PM is struggling to move into leadership, the system connects them with someone who navigated that exact challenge six months ago.</p>
+    <p>The warmest introductions, and the strongest relationships, are based on shared experiences.</p>
+  </div>
+
+  <div class="pillar reveal">
+    <div class="pillar-number">03</div>
+    <h2>Capturing
+      <span class="brushstroke">breakthroughs
+        <svg viewBox="0 0 200 10" preserveAspectRatio="none">
+          <path d="M3 5 C30 6, 60 4.5, 95 6 S140 5, 175 6 S195 5, 197 5.5"/>
+        </svg>
+      </span>
+    </h2>
+    <p>When someone moves past a plateau, the agent prompts a reflection: what helped you break through? With consent, those insights are anonymized and stored.</p>
+    <p>Over time, Profound accumulates a rich dataset of real career journeys&mdash;the plateaus, the strategies that worked, the transitions that shaped growth. When someone similar faces the same challenge, the system can surface what actually helped.</p>
+  </div>
+
+  <div class="pillar reveal">
+    <div class="pillar-number">04</div>
+    <h2>A confidential layer for <span class="brushstroke">communities<svg viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M3 5 C35 6.5, 70 4.5, 105 6 S150 5, 180 6 S195 5.5, 197 5"/></svg></span></h2>
+    <p>Even in professional communities and enterprise, people hesitate to openly discuss sensitive career challenges. Profound acts as a confidential intermediary&mdash;you share privately with your AI rep, and (with consent) the system identifies relevant peers, surfaces anonymized insights, or facilitates introductions - users can choose whether connections are made within their org, their community, or general users of Profound.</p>
+    <p>Introductions, connections, networks are built - not just based on where I am today, but based on how I operate as a professional.</p>
+  </div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     SECTION 5 — CTA (return to light)
+     ═══════════════════════════════════════════ -->
+<section class="section-cta">
+  <div>
+    <div class="cta-headline reveal">
+      Profound has up-to-date information about your professional experiences, and helps navigate complexity.
+    </div>
+    <div class="cta-body reveal reveal-delay-1">
+      Most professional platforms focus on what you've done. Profound understands who you are&mdash;and what you're going through. That's how a real representative works.
+    </div>
+    <div class="reveal reveal-delay-2">
+      <a class="btn-primary" href="https://www.linkedin.com/in/hireharsh4pm ">Hire Harsh, as Profound's 1st PM.</a>
+    </div>
+  </div>
+</section>
+
+<div class="section-footer">
+  Strategy concept for Profound &mdash; extending the AI career rep into a continuous professional relationship.
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT — Scroll-triggered animations
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+  // Intersection Observer for .reveal elements
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    revealObserver.observe(el);
+  });
+
+  // Brushstroke draw-on animation
+  const brushObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('drawn');
+      }
+    });
+  }, {
+    threshold: 0.5
+  });
+
+  document.querySelectorAll('.brushstroke').forEach(el => {
+    brushObserver.observe(el);
+  });
+
+  // "Evolves" font cycling — wait for fonts to load, then measure and cycle
+  const evolvesEl = document.getElementById('evolves-word');
+  if (evolvesEl) {
+    const fonts = [
+      "'Playfair Display', serif",
+      "'DM Serif Text', serif",
+      "'Lora', serif"
+    ];
+    document.fonts.ready.then(function() {
+      // Pre-measure each font's natural width and height
+      var widths = [];
+      var heights = [];
+      evolvesEl.style.transition = 'none';
+      fonts.forEach(function(f) {
+        evolvesEl.style.fontFamily = f;
+        evolvesEl.style.width = 'auto';
+        evolvesEl.style.height = 'auto';
+        widths.push(Math.ceil(evolvesEl.getBoundingClientRect().width));
+        heights.push(Math.ceil(evolvesEl.getBoundingClientRect().height));
+      });
+      // Use max dimensions + small buffer to prevent layout shifts
+      var maxWidth = Math.max.apply(null, widths) + 4;
+      var maxHeight = Math.max.apply(null, heights);
+      // Set fixed dimensions and initial font
+      evolvesEl.style.fontFamily = fonts[0];
+      evolvesEl.style.width = maxWidth + 'px';
+      evolvesEl.style.height = maxHeight + 'px';
+      // Re-enable transitions after a frame
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          evolvesEl.style.transition = 'font-family 0.4s ease';
+        });
+      });
+      var idx = 0;
+      setInterval(function() {
+        idx = (idx + 1) % fonts.length;
+        evolvesEl.style.fontFamily = fonts[idx];
+      }, 2000);
+    });
+  }
+
+  // Flow diagram — scroll-driven 3-stage cascade
+  const flowSection = document.getElementById('flow-section');
+  const flowDiagram = document.getElementById('flow-diagram');
+  if (flowSection && flowDiagram) {
+    const stageShare = flowDiagram.querySelector('.stage-share');
+    const stageAnon = flowDiagram.querySelector('.stage-anonymize');
+    const stageConnect = flowDiagram.querySelector('.stage-connect');
+    const lineLeft = flowDiagram.querySelector('.flow-line-left');
+    const lineRight1 = flowDiagram.querySelector('.flow-line-right1');
+    const lineRight2 = flowDiagram.querySelector('.flow-line-right2');
+    const glows = flowDiagram.querySelectorAll('.agent-glow');
+    const labels = flowDiagram.querySelectorAll('.flow-label');
+
+    function updateFlow() {
+      const rect = flowSection.getBoundingClientRect();
+      const sectionH = flowSection.offsetHeight;
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(1, scrolled / (sectionH - window.innerHeight)));
+
+      // Stage 1: Share (~2vh of scrolling)
+      if (progress > 0.02) {
+        stageShare.classList.add('active');
+        if (labels[0]) labels[0].classList.add('active');
+      }
+
+      // Stage 2: Anonymize (~25vh of scrolling)
+      if (progress > 0.25) {
+        if (lineLeft) lineLeft.classList.add('active');
+        stageAnon.classList.add('active');
+        glows.forEach(g => g.classList.add('active'));
+        if (labels[1]) labels[1].classList.add('active');
+      }
+
+      // Stage 3: Connect (~50vh of scrolling)
+      if (progress > 0.50) {
+        if (lineRight1) lineRight1.classList.add('active');
+        if (lineRight2) lineRight2.classList.add('active');
+        stageConnect.classList.add('active');
+        if (labels[2]) labels[2].classList.add('active');
+      }
+    }
+
+    window.addEventListener('scroll', updateFlow, { passive: true });
+    updateFlow();
+  }
+})();
+</script>
+
+</body>
+</html>
